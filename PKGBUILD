@@ -13,6 +13,8 @@ optdepends=('texlive-bin: The texdoc program and some more documentation')
 makedepends=('rsync')
 install='texlive-most-doc.install'
 options=('!strip'  '!purge')
+source=(cache-tlpdb.lua)
+sha256sums=('be7f87d6e546b09a0795df856175d99b3ae90cec55f3c1f8c0ecbb8349a7fbd1')
 
 build() {
   mkdir -p "$srcdir/usr/share/texmf-dist"
@@ -21,4 +23,7 @@ build() {
 
 package() {
   cp -rl "$srcdir"/* "$pkgdir"
+  install -D "$startdir"/cache-tlpdb.lua "$pkgdir"/usr/share/texmf-dist/scripts/texdoc/Data.tlpdb.lua
 }
+
+post_install() { mktexlsr; }
